@@ -15,7 +15,7 @@ export default async function Page({ params }) {
 
       <form
         action={updateBooking}
-        className="bg-primary-900 py-8 px-12 text-lg flex gap-6 flex-col"
+        className="bg-primary-900 py-3 sm:py-8 px-5 sm:px-12 text-lg flex gap-6 flex-col"
       >
         <input type="hidden" value={bookingId} name="bookingId" />
         <div className="space-y-2">
@@ -49,7 +49,7 @@ export default async function Page({ params }) {
           />
         </div>
 
-        <div className="flex justify-end items-center gap-6">
+        <div className="flex justify-center sm:justify-end items-center gap-0 sm:gap-6">
           <SubmitButton pendingLabel="Updating...">
             Update reservation
           </SubmitButton>

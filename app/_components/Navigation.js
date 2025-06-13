@@ -3,10 +3,11 @@ import { auth } from "../_lib/auth";
 
 export default async function Navigation() {
   const session = await auth();
+  const firstName = session?.user.name.split(" ").at(0);
 
   return (
-    <nav className="z-10 text-xl">
-      <ul className="flex gap-16 items-center">
+    <nav className="z-10 text-lg sm:text-xl">
+      <ul className="flex sm:gap-16 gap-11 items-center">
         <li>
           <Link
             href="/cabins"
@@ -35,14 +36,14 @@ export default async function Navigation() {
                 alt={session.user.name}
                 referrerPolicy="no-referrer"
               />
-              <span>Guest area</span>
+              <span className="sm:block hidden">{firstName}</span>
             </Link>
           ) : (
             <Link
               href="/account"
               className="hover:text-accent-400 transition-colors"
             >
-              Guest area
+              Login
             </Link>
           )}
         </li>

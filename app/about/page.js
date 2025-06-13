@@ -1,7 +1,9 @@
 import Image from "next/image";
 
 import image1 from "../../public/about-1.jpg";
+import image2 from "../../public/about-2.jpg";
 import { getCabins } from "../_lib/data-service";
+import Link from "next/link";
 
 export const metadata = {
   title: "About",
@@ -13,9 +15,9 @@ export default async function Page() {
   const cabins = await getCabins();
 
   return (
-    <div className="grid grid-cols-5 gap-x-24 gap-y-32 text-lg items-center">
-      <div className="col-span-3">
-        <h1 className="text-4xl mb-10 text-accent-400 font-medium">
+    <div className="flex flex-col sm:grid grid-cols-5 gap-x-24 gap-y-16 sm:gap-y-32 sm:text-lg text-sm items-center text-center sm:text-left">
+      <div className="col-span-3 sm:order-none order-1">
+        <h1 className="[font-size:2.5rem] [line-height:2.5rem] sm:text-4xl mb-10 text-accent-400 font-medium ">
           Welcome to The Wild Oasis
         </h1>
 
@@ -41,7 +43,7 @@ export default async function Page() {
         </div>
       </div>
 
-      <div className="col-span-2">
+      <div className="col-span-2 order-2  sm:order-none">
         <Image
           src={image1}
           placeholder="blur"
@@ -49,17 +51,15 @@ export default async function Page() {
         />
       </div>
 
-      <div className="col-span-2 relative aspect-square">
+      <div className="col-span-2 order-4  sm:order-none">
         <Image
-          src="/about-2.jpg"
-          fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          className="object-cover"
+          src={image2}
+          placeholder="blur"
           alt="Family that manages The Wild Oasis"
         />
       </div>
 
-      <div className="col-span-3">
+      <div className="col-span-3 order-3  sm:order-none">
         <h1 className="text-4xl mb-10 text-accent-400 font-medium">
           Managed by our family since 1962
         </h1>
@@ -79,17 +79,14 @@ export default async function Page() {
             Wild Oasis soon, where tradition meets tranquility, and every visit
             is like coming home.
           </p>
-
-          <div>
-            <a
-              href="/cabins"
-              className="inline-block mt-4 bg-accent-500 px-8 py-5 text-primary-800 text-lg font-semibold hover:bg-accent-600 transition-all"
-            >
-              Explore our luxury cabins
-            </a>
-          </div>
         </div>
       </div>
+      <Link
+        href="/cabins"
+        className="inline-block mt-4 bg-accent-500 px-8 py-5 text-primary-800 text-lg sm:text-xl font-semibold hover:bg-accent-600 transition-all order-5  sm:order-none col-span-3 [grid-column-start:2] text-center"
+      >
+        Explore our luxury cabins
+      </Link>
     </div>
   );
 }

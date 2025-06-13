@@ -21,7 +21,7 @@ const navLinks = [
     icon: <CalendarDaysIcon className="h-5 w-5 text-primary-600" />,
   },
   {
-    name: "Guest profile",
+    name: "Profile",
     href: "/account/profile",
     icon: <UserIcon className="h-5 w-5 text-primary-600" />,
   },
@@ -31,15 +31,15 @@ function SideNavigation() {
   const pathname = usePathname();
   return (
     <nav className="border-r border-primary-900">
-      <ul className="flex flex-col gap-2 h-full text-lg">
+      <ul className="flex flex-row sm:flex-col gap-0 sm:gap-2 h-full text-sm sm:text-lg">
         {navLinks.map((link) => (
           <li key={link.name}>
             <Link
-              className={`py-3 px-5  ${
+              className={`py-1 sm:py-3 px-3 sm:px-5  ${
                 pathname === link.href
                   ? "bg-primary-900 text-primary-100 "
                   : "text-primary-200  hover:bg-primary-900 hover:text-primary-100 transition-colors"
-              } flex items-center gap-4 font-semibold `}
+              } flex flex-col sm:flex-row items-center gap-2 sm:gap-4 font-semibold `}
               href={link.href}
             >
               {link.icon}
@@ -48,7 +48,7 @@ function SideNavigation() {
           </li>
         ))}
 
-        <li className="mt-auto">
+        <li className="m-auto sm:mt-auto bg-accent-500 text-primary-800 ">
           <SignOutButton />
         </li>
       </ul>

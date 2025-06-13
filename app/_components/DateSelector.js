@@ -9,6 +9,7 @@ import {
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
 import { useReservation } from "./ReservationContext";
+import { useEffect, useState } from "react";
 
 function isAlreadyBooked(range, datesArr) {
   return (
@@ -32,10 +33,22 @@ function DateSelector({ settings, bookedDates, cabin }) {
   const numNights = differenceInDays(displayRange?.to, displayRange?.from);
   const cabinPrice = numNights * (regularPrice - discount);
 
+  const [monthsToShow, setMonthsToShow] = useState(2);
+
+  useEffect(() => {
+    // Function to update months based on window width
+    function handleResize() {
+      setMonthsToShow(window.innerWidth < 640 ? 1 : 2); // 640px is Tailwind's 'sm' breakpoint
+    }
+    handleResize(); // Set on mount
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
     <div className="flex flex-col justify-between">
       <DayPicker
-        className="pt-12 place-self-center"
+        className="py-12 place-self-center"
         mode="range"
         onSelect={setRange}
         selected={displayRange}
@@ -44,21 +57,25 @@ function DateSelector({ settings, bookedDates, cabin }) {
         fromMonth={new Date()}
         fromDate={new Date()}
         toYear={new Date().getFullYear() + 5}
-        captionLayout="dropdown"
-        numberOfMonths={2}
+        // captionLayout="dropdown"
+        showOutsideDays
+        captionLayout="dropdown-buttons"
+        numberOfMonths={monthsToShow}
         disabled={(curDate) =>
           isPast(curDate) ||
           bookedDates.some((date) => isSameDay(date, curDate))
         }
       />
 
-      <div className="flex items-center justify-between px-8 bg-accent-500 text-primary-800 h-[72px]">
-        <div className="flex items-baseline gap-6">
-          <p className="flex gap-2 items-baseline">
+      <div className="flex text-xs items-center justify-between px-2 sm:px-8 bg-accent-500 text-primary-800 h-[72px]">
+        <div className="flex items-center gap-2 sm:gap-6">
+          <p className="flex gap-[.4rem] sm:gap-2 items-baseline">
             {discount > 0 ? (
               <>
-                <span className="text-2xl">${regularPrice - discount}</span>
-                <span className="line-through font-semibold text-primary-700">
+                <span className="text-lg sm:text-2xl">
+                  ${regularPrice - discount}
+                </span>
+                <span className="line-through sm:text-sm text-xs font-semibold text-primary-700">
                   ${regularPrice}
                 </span>
               </>
@@ -69,12 +86,16 @@ function DateSelector({ settings, bookedDates, cabin }) {
           </p>
           {numNights ? (
             <>
-              <p className="bg-accent-600 px-3 py-2 text-2xl">
+              <p className="bg-accent-600 p-1 sm:px-3 sm:py-2 text-xl text-center sm:text-2xl">
                 <span>&times;</span> <span>{numNights}</span>
               </p>
-              <p>
-                <span className="text-lg font-bold uppercase">Total</span>{" "}
-                <span className="text-2xl font-semibold">${cabinPrice}</span>
+              <p className="text-center">
+                <span className="text-sm sm:text-lg font-bold uppercase">
+                  Total
+                </span>{" "}
+                <span className="text-xl sm:text-2xl font-semibold">
+                  ${cabinPrice}
+                </span>
               </p>
             </>
           ) : null}
@@ -82,7 +103,7 @@ function DateSelector({ settings, bookedDates, cabin }) {
 
         {range?.from || range?.to ? (
           <button
-            className="border border-primary-800 py-2 px-4 text-sm font-semibold"
+            className="border border-primary-800 py-1 sm:py-2 px-2 sm:px-4 text-sm font-semibold"
             onClick={() => resetRange()}
           >
             Clear
